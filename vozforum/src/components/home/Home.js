@@ -1,5 +1,7 @@
 import React from "react";
 import TopBar from "../topBar/TopBar";
+import Sidebar from "../SlideBar/SlideBar";
+import Explore from "../explore/Explore";
 
 
 function Home(){
@@ -11,6 +13,8 @@ function Home(){
     return(
         <div>
             <TopBar />
+            <Sidebar />
+            <Explore />
         </div>
     )
 }

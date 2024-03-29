@@ -3,41 +3,93 @@ import './App.css';
 // import api from './api/axiosConfig';
 import {useState, useEffect} from 'react';
 import Layout from './components/Layout';
-import { Routes, Route } from 'react-router-dom';
+import { Routes, Route,Outlet, RouterProvider, createBrowserRouter } from 'react-router-dom';
 import Home from './components/home/Home';
 import RegisterPage from './components/Register/Register';
-import Login from './login/login';
+import Login from './components/login/login';
+import Content from './components/Content/Content';
+import Askquestion from './components/askQuestion/AskQuestion';
+import { useQueryClient, QueryClient, QueryClientProvider } from 'react-query';
+import Myanswers from './components/myanswers/MyAnswers';
+import Explore from './components/explore/Explore';
+import { useNavigate } from 'react-router-dom';
 
-function App() {
-  // const [posts, setPosts] = useState();
-  // const getPosts = async () =>{
-  //   try{
-  //     const response = await axios.get("/api/v1/posts");
-  //     // console.log(response.data);
-  //     setPosts(response.data);
+const router = createBrowserRouter([
+  {
+    path: "/register",
+    element: <RegisterPage />,
+  },
+  {
+    path: "/login",
+    element: <Login />,
+  },
+  {
+    path: "/",
+    element: <Layout />,
+    children: [
+      {
+        path: "/",
+        element: <Content />,
+      },
+      {
+        path: "/ask",
+        element: <Askquestion />,
+      },
+      {
+        path: "/myqna",
+        element: <Myanswers />,
+      },
+      {
+        path: "/explore",
+        element: <Explore />,
+      },
+      {
+        path: "/explore/:topic",
+        element: <Content />,
+      },
+      // {
+      //   path: "*",
+      //   element: <Notfound />,
+      // },
+    ],
+  },
+  // {
+  //   path: "*",
+  //   element: <Notfound />,
+  // },
+]);
 
-  //   } catch(err){
-  //     console.log(err);
-  //   }
-    
-  // }
+const queryClient = new QueryClient();
+
+export default function App() {
+  // const navigate = useNavigate();
+  // const [isLoggedIn, setIsLoggedIn] = useState(false);
 
   // useEffect(() => {
-  //   getPosts();
-  // },[])
-  return (
-    <div className="App">
-      <Routes>
-        <Route path="/" element={<Layout/>}>
-          <Route path="/register" element={<RegisterPage/>}></Route>
-          <Route path="/" element={<Login/>}></Route>
-          <Route path="/home" element={<Home/>}></Route>
-        </Route>
-        
-      </Routes>
-      
-    </div>
-  );
-}
+  //   const user = JSON.parse(localStorage.getItem('user'));
+  //   if (user && user.uID) {
+  //     setIsLoggedIn(true);
+  //   } else {
+  //     setIsLoggedIn(false);
+  //   }
+  // }, []);
 
-export default App;
+  // useEffect(() => {
+  //   if (isLoggedIn) {
+  //     navigate('/');
+  //   } else {
+  //     navigate('/login');
+  //   }
+  // }, [isLoggedIn, navigate]);
+  
+  return (
+    <QueryClientProvider client={queryClient}> {/* Bao bọc ứng dụng trong QueryClientProvider và cung cấp QueryClient */}
+      <RouterProvider router={router} />
+   </QueryClientProvider>
+  )
+  // return (
+  //   <div>
+  //     <RouterProvider router={router} />
+  //   </div>
+  // );
+}

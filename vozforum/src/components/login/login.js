@@ -57,7 +57,7 @@ function Login() {
                     // Lưu đối tượng người dùng vào localStorage
                     localStorage.setItem('user', JSON.stringify(response.data));
                     
-                    navigate('/home'); // Điều hướng sang trang Home
+                    navigate('/'); // Điều hướng sang trang Home
                 }
                 setFormValueLogin(initUserValue);
             } catch (error) {
